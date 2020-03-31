@@ -28,6 +28,7 @@ struct secret_param_SSBM_ABE {
 struct ciphertext_SSBM_ABE {
 	element_t M, S;
 	element_t * E;
+	mpz_t extra;
 	int * attributes, attr_count;
 };
 
@@ -83,20 +84,22 @@ void setup(public_param_SSBM_ABE &public_key, secret_param_SSBM_ABE &master_key,
 
 void encrypt(ciphertext_SSBM_ABE &ciphertext, public_param_SSBM_ABE &public_key, mpz_t &message, int * attributes, int attr_count) {
 
+	mpz_t msg_gt;
 	element_t message_GT, Ys;
 	element_init_GT(message_GT, public_key.pairing);
 	element_init_GT(Ys, public_key.pairing);
 	element_init_GT(ciphertext.M, public_key.pairing);
 	ciphertext.attr_count = attr_count;
 
-	// gmp_printf("Message in mpz: %Zd\n", message);
-	// element_printf("Message in GT: %B\n", message_GT);
-	// element_set_mpz(message_GT, message);
-	element_from_hash(message_GT, "ABE-CAS", 7);
+	element_random(message_GT);
 	element_printf("Message in GT: %B\n", message_GT);
-	// char data[111];
-	element_to_mpz(message, message_GT);
-	gmp_printf("Message in mpz: %Zd\n", message);
+
+	mpz_init(ciphertext.extra);
+	mpz_init(msg_gt);
+	element_to_mpz(msg_gt, message_GT);
+	mpz_sub(ciphertext.extra, message, msg_gt);
+
+	// gmp_printf("Message in mpz: %Zd\n", message);
 
 	element_t s;
 	element_init_Zr(s, public_key.pairing);
@@ -257,7 +260,7 @@ int key_generation(decryption_key_SSBM_ABE &decryption_key, public_param_SSBM_AB
 	}
 }
 
-int decrypt(element_t & message,const compartmented_access_str &cas, const decryption_key_SSBM_ABE &decryption_key, public_param_SSBM_ABE &public_key, ciphertext_SSBM_ABE &ciphertext) {
+int decrypt(mpz_t & message,const compartmented_access_str &cas, const decryption_key_SSBM_ABE &decryption_key, public_param_SSBM_ABE &public_key, ciphertext_SSBM_ABE &ciphertext) {
 
 	// invAttr[i] keeps the position of attribute i in `ciphertext.attributes`
 	if(ciphertext.attr_count < cas.t) return 1;
@@ -315,14 +318,18 @@ int decrypt(element_t & message,const compartmented_access_str &cas, const decry
 
 	element_polynomial_interpolation_in0(share[cas.comp_number], values, points, cas.t, public_key);
 
-	element_t Ys;
+	element_t Ys, msg_gt;
 	element_init_GT(Ys, public_key.pairing);
 	element_set1(Ys);
 	for(int i = 0; i <= cas.comp_number; i++) 
 		element_mul(Ys, Ys, share[i]); // we actually do not need the share array. Just compute this in for loop
 
-	element_init_GT(message, public_key.pairing);
-	element_mul(message, ciphertext.M, Ys);
+	element_init_GT(msg_gt, public_key.pairing);
+	element_mul(msg_gt, ciphertext.M, Ys);
+	mpz_init(message);
+	element_to_mpz(message, msg_gt);
+	// printf("ajung pe la final\n");
+	mpz_add(message, message, ciphertext.extra);
 	return 0;
 }
 
@@ -373,10 +380,10 @@ int main(int argc, char const *argv[])
 	setup(pp, msk, 4, 4);
 
 	mpz_t msg;
-	mpz_init_set_si(msg, 1432);
+	mpz_init_set_si(msg, 1234567890);
 	gmp_printf("yee %Zd", msg);
 
-	int arr [] = {0, 1, 3};
+	int arr [] = {0, 1, 2};
 
 	encrypt(ct, pp, msg, arr, 3);
 	compartmented_access_str cas;
@@ -415,11 +422,11 @@ int main(int argc, char const *argv[])
 
 	printf("========\n\n");
 
-	element_t message;
+	mpz_t message;
 	int ret = decrypt(message, cas, dec, pp, ct);
 	printf("%d\n", ret);
 	// element_printf("%B", message);
-	element_printf("%B\n", message);
+	element_printf("%Zd\n", message);
 
 	return 0;
 }
