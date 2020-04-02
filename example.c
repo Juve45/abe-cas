@@ -10,8 +10,6 @@ int main(int argc, char const *argv[]) {
 	mpz_t msg;
 	mpz_init_set_si(msg, 1234567891);
 
-
-
 	int arr [] = {0, 1, 2};
 
 	encrypt(ct, pp, msg, arr, 3);
