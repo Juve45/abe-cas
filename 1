@@ -1,0 +1,373 @@
+ssbm.c: In function ‘element_polynomial_interpolation_in0’:
+ssbm.c:153:39: error: request for member ‘pairing’ in something not a structure or union
+   element_init_Zr(exponent, public_key->pairing);
+                                       ^~
+ssbm.c:158:35: error: request for member ‘pairing’ in something not a structure or union
+    element_init_Zr(tmp, public_key->pairing);
+                                   ^~
+ssbm.c:168:37: error: request for member ‘pairing’ in something not a structure or union
+   element_init_GT(tmp_gt, public_key->pairing);
+                                     ^~
+ssbm.c:169:35: error: request for member ‘g’ in something not a structure or union
+   pairing_apply(tmp_gt, public_key->g, public_key->g, public_key->pairing);
+                                   ^~
+ssbm.c:169:50: error: request for member ‘g’ in something not a structure or union
+   pairing_apply(tmp_gt, public_key->g, public_key->g, public_key->pairing);
+                                                  ^~
+ssbm.c:169:65: error: request for member ‘pairing’ in something not a structure or union
+   pairing_apply(tmp_gt, public_key->g, public_key->g, public_key->pairing);
+                                                                 ^~
+ssbm.c: In function ‘key_generation’:
+ssbm.c:188:15: error: request for member ‘n’ in something not a structure or union
+  if(public_key->n != cas->n)
+               ^~
+ssbm.c:188:25: error: request for member ‘n’ in something not a structure or union
+  if(public_key->n != cas->n)
+                         ^~
+ssbm.c:191:16: error: request for member ‘n’ in something not a structure or union
+  decryption_key->n = public_key->n;
+                ^~
+ssbm.c:191:32: error: request for member ‘n’ in something not a structure or union
+  decryption_key->n = public_key->n;
+                                ^~
+ssbm.c:193:46: error: request for member ‘comp_number’ in something not a structure or union
+  element_t * share = (element_t *) calloc(cas->comp_number + 1, sizeof(element_t ));
+                                              ^~
+ssbm.c:194:16: error: request for member ‘a1’ in something not a structure or union
+  decryption_key->a1 = (element_t *) calloc(public_key->n, sizeof(element_t ));
+                ^~
+ssbm.c:194:54: error: request for member ‘n’ in something not a structure or union
+  decryption_key->a1 = (element_t *) calloc(public_key->n, sizeof(element_t ));
+                                                      ^~
+ssbm.c:195:16: error: request for member ‘a2’ in something not a structure or union
+  decryption_key->a2 = (element_t *) calloc(public_key->n, sizeof(element_t ));
+                ^~
+ssbm.c:195:54: error: request for member ‘n’ in something not a structure or union
+  decryption_key->a2 = (element_t *) calloc(public_key->n, sizeof(element_t ));
+                                                      ^~
+ssbm.c:198:33: error: request for member ‘pairing’ in something not a structure or union
+  element_init_Zr(sum, public_key->pairing);
+                                 ^~
+ssbm.c:199:29: error: request for member ‘y’ in something not a structure or union
+  element_set(sum, secret_key->y);
+                             ^~
+ssbm.c:203:24: error: request for member ‘comp_number’ in something not a structure or union
+  for(int i = 0; i < cas->comp_number; i++) {
+                        ^~
+ssbm.c:205:39: error: request for member ‘pairing’ in something not a structure or union
+   element_init_Zr(share[i], public_key->pairing);
+                                       ^~
+ssbm.c:210:18: error: request for member ‘comp_threshold’ in something not a structure or union
+   element_t a[cas->comp_threshold[i]];
+                  ^~
+ssbm.c:211:35: error: request for member ‘pairing’ in something not a structure or union
+   element_init_Zr(a[0], public_key->pairing);
+                                   ^~
+ssbm.c:215:25: error: request for member ‘comp_threshold’ in something not a structure or union
+   for(int j = 1; j < cas->comp_threshold[i]; j++) {
+                         ^~
+ssbm.c:216:36: error: request for member ‘pairing’ in something not a structure or union
+    element_init_Zr(a[j], public_key->pairing);
+                                    ^~
+ssbm.c:221:25: error: request for member ‘comp_size’ in something not a structure or union
+   for(int j = 0; j < cas->comp_size[i]; j++) {
+                         ^~
+ssbm.c:224:35: error: request for member ‘pairing’ in something not a structure or union
+    element_init_Zr(tmp, public_key->pairing);
+                                   ^~
+ssbm.c:225:33: error: request for member ‘pairing’ in something not a structure or union
+    element_init_Zr(x, public_key->pairing);
+                                 ^~
+ssbm.c:228:40: error: request for member ‘comp_threshold’ in something not a structure or union
+    element_polynomial_eval(&tmp, a, cas->comp_threshold[i] - 1, x);
+                                        ^~
+ssbm.c:228:28: warning: passing argument 1 of ‘element_polynomial_eval’ from incompatible pointer type [-Wincompatible-pointer-types]
+    element_polynomial_eval(&tmp, a, cas->comp_threshold[i] - 1, x);
+                            ^
+ssbm.c:127:6: note: expected ‘struct element_s *’ but argument is of type ‘struct element_s (*)[1]’
+ void element_polynomial_eval(element_t ans, element_t * a, int degree, element_t x) {
+      ^~~~~~~~~~~~~~~~~~~~~~~
+ssbm.c:229:34: error: request for member ‘a1’ in something not a structure or union
+    element_init_G1(decryption_key->a1[cas->compartments[i][j]], public_key->pairing);
+                                  ^~
+ssbm.c:229:42: error: request for member ‘compartments’ in something not a structure or union
+    element_init_G1(decryption_key->a1[cas->compartments[i][j]], public_key->pairing);
+                                          ^~
+ssbm.c:229:75: error: request for member ‘pairing’ in something not a structure or union
+    element_init_G1(decryption_key->a1[cas->compartments[i][j]], public_key->pairing);
+                                                                           ^~
+ssbm.c:230:36: error: request for member ‘t’ in something not a structure or union
+    element_div(tmp, tmp, secret_key->t[cas->compartments[i][j]]);
+                                    ^~
+ssbm.c:230:43: error: request for member ‘compartments’ in something not a structure or union
+    element_div(tmp, tmp, secret_key->t[cas->compartments[i][j]]);
+                                           ^~
+ssbm.c:231:33: error: request for member ‘a1’ in something not a structure or union
+    element_pow_zn(decryption_key->a1[cas->compartments[i][j]], public_key->g, tmp);
+                                 ^~
+ssbm.c:231:41: error: request for member ‘compartments’ in something not a structure or union
+    element_pow_zn(decryption_key->a1[cas->compartments[i][j]], public_key->g, tmp);
+                                         ^~
+ssbm.c:231:74: error: request for member ‘g’ in something not a structure or union
+    element_pow_zn(decryption_key->a1[cas->compartments[i][j]], public_key->g, tmp);
+                                                                          ^~
+ssbm.c:236:27: error: request for member ‘comp_number’ in something not a structure or union
+  element_init_Zr(share[cas->comp_number], public_key->pairing);
+                           ^~
+ssbm.c:236:53: error: request for member ‘pairing’ in something not a structure or union
+  element_init_Zr(share[cas->comp_number], public_key->pairing);
+                                                     ^~
+ssbm.c:237:23: error: request for member ‘comp_number’ in something not a structure or union
+  element_set(share[cas->comp_number], sum);
+                       ^~
+ssbm.c:239:17: error: request for member ‘t’ in something not a structure or union
+  element_t b[cas->t];
+                 ^~
+ssbm.c:241:24: error: request for member ‘t’ in something not a structure or union
+  for(int j = 0; j < cas->t; j++)
+                        ^~
+ssbm.c:242:36: error: request for member ‘pairing’ in something not a structure or union
+    element_init_Zr(b[j], public_key->pairing);
+                                    ^~
+ssbm.c:244:24: error: request for member ‘t’ in something not a structure or union
+  for(int j = 1; j < cas->t; j++) {
+                        ^~
+ssbm.c:245:35: error: request for member ‘pairing’ in something not a structure or union
+   element_init_Zr(b[j], public_key->pairing);
+                                   ^~
+ssbm.c:249:24: error: request for member ‘n’ in something not a structure or union
+  for(int j = 0; j < cas->n; j++) {
+                        ^~
+ssbm.c:252:34: error: request for member ‘pairing’ in something not a structure or union
+   element_init_Zr(tmp, public_key->pairing);
+                                  ^~
+ssbm.c:253:32: error: request for member ‘pairing’ in something not a structure or union
+   element_init_Zr(x, public_key->pairing);
+                                ^~
+ssbm.c:255:39: error: request for member ‘t’ in something not a structure or union
+   element_polynomial_eval(&tmp, b, cas->t - 1, x);
+                                       ^~
+ssbm.c:255:27: warning: passing argument 1 of ‘element_polynomial_eval’ from incompatible pointer type [-Wincompatible-pointer-types]
+   element_polynomial_eval(&tmp, b, cas->t - 1, x);
+                           ^
+ssbm.c:127:6: note: expected ‘struct element_s *’ but argument is of type ‘struct element_s (*)[1]’
+ void element_polynomial_eval(element_t ans, element_t * a, int degree, element_t x) {
+      ^~~~~~~~~~~~~~~~~~~~~~~
+ssbm.c:257:33: error: request for member ‘a2’ in something not a structure or union
+   element_init_G1(decryption_key->a2[j], public_key->pairing);
+                                 ^~
+ssbm.c:257:52: error: request for member ‘pairing’ in something not a structure or union
+   element_init_G1(decryption_key->a2[j], public_key->pairing);
+                                                    ^~
+ssbm.c:258:35: error: request for member ‘t’ in something not a structure or union
+   element_div(tmp, tmp, secret_key->t[j]);
+                                   ^~
+ssbm.c:259:32: error: request for member ‘a2’ in something not a structure or union
+   element_pow_zn(decryption_key->a2[j], public_key->g, tmp);
+                                ^~
+ssbm.c:259:51: error: request for member ‘g’ in something not a structure or union
+   element_pow_zn(decryption_key->a2[j], public_key->g, tmp);
+                                                   ^~
+ssbm.c: In function ‘decrypt’:
+ssbm.c:266:15: error: request for member ‘attr_count’ in something not a structure or union
+  if(ciphertext->attr_count < cas->t) return 1;
+               ^~
+ssbm.c:266:33: error: request for member ‘t’ in something not a structure or union
+  if(ciphertext->attr_count < cas->t) return 1;
+                                 ^~
+ssbm.c:268:24: error: request for member ‘n’ in something not a structure or union
+  int invAttr[public_key->n];
+                        ^~
+ssbm.c:271:31: error: request for member ‘attr_count’ in something not a structure or union
+  for(int i = 0; i < ciphertext->attr_count; i++)
+                               ^~
+ssbm.c:272:21: error: request for member ‘attributes’ in something not a structure or union
+   invAttr[ciphertext->attributes[i]] = i;
+                     ^~
+ssbm.c:274:21: error: request for member ‘comp_number’ in something not a structure or union
+  element_t share[cas->comp_number + 1];
+                     ^~
+ssbm.c:276:38: error: request for member ‘attr_count’ in something not a structure or union
+  printf("Hola %d %d \n\n", ciphertext->attr_count, cas->t);
+                                      ^~
+ssbm.c:276:55: error: request for member ‘t’ in something not a structure or union
+  printf("Hola %d %d \n\n", ciphertext->attr_count, cas->t);
+                                                       ^~
+ssbm.c:278:24: error: request for member ‘comp_number’ in something not a structure or union
+  for(int i = 0; i < cas->comp_number; i++) {
+                        ^~
+ssbm.c:280:39: error: request for member ‘pairing’ in something not a structure or union
+   element_init_GT(share[i], public_key->pairing);
+                                       ^~
+ssbm.c:283:23: error: request for member ‘comp_threshold’ in something not a structure or union
+   element_t values[cas->comp_threshold[i]], points[cas->comp_threshold[i]];
+                       ^~
+ssbm.c:283:55: error: request for member ‘comp_threshold’ in something not a structure or union
+   element_t values[cas->comp_threshold[i]], points[cas->comp_threshold[i]];
+                                                       ^~
+ssbm.c:287:25: error: request for member ‘comp_threshold’ in something not a structure or union
+   while(attr_found < cas->comp_threshold[i] && j < cas->comp_size[i]) {
+                         ^~
+ssbm.c:287:55: error: request for member ‘comp_size’ in something not a structure or union
+   while(attr_found < cas->comp_threshold[i] && j < cas->comp_size[i]) {
+                                                       ^~
+ssbm.c:288:18: error: request for member ‘compartments’ in something not a structure or union
+    if(invAttr[cas->compartments[i][j]] != -1) {
+                  ^~
+ssbm.c:289:34: error: request for member ‘compartments’ in something not a structure or union
+     printf("%d %d\n", invAttr[cas->compartments[i][j]], cas->compartments[i][j]);
+                                  ^~
+ssbm.c:289:60: error: request for member ‘compartments’ in something not a structure or union
+     printf("%d %d\n", invAttr[cas->compartments[i][j]], cas->compartments[i][j]);
+                                                            ^~
+ssbm.c:290:51: error: request for member ‘pairing’ in something not a structure or union
+     element_init_GT(values[attr_found], public_key->pairing);
+                                                   ^~
+ssbm.c:291:51: error: request for member ‘pairing’ in something not a structure or union
+     element_init_Zr(points[attr_found], public_key->pairing);
+                                                   ^~
+ssbm.c:292:43: error: request for member ‘compartments’ in something not a structure or union
+     element_set_si(points[attr_found], cas->compartments[i][j] + 1);
+                                           ^~
+ssbm.c:293:49: error: request for member ‘E’ in something not a structure or union
+     pairing_apply(values[attr_found], ciphertext->E[ invAttr[cas->compartments[i][j]] ], decryption_key->a1[cas->compartments[i][j]], public_key->pairing);
+                                                 ^~
+ssbm.c:293:65: error: request for member ‘compartments’ in something not a structure or union
+     pairing_apply(values[attr_found], ciphertext->E[ invAttr[cas->compartments[i][j]] ], decryption_key->a1[cas->compartments[i][j]], public_key->pairing);
+                                                                 ^~
+ssbm.c:293:104: error: request for member ‘a1’ in something not a structure or union
+     pairing_apply(values[attr_found], ciphertext->E[ invAttr[cas->compartments[i][j]] ], decryption_key->a1[cas->compartments[i][j]], public_key->pairing);
+                                                                                                        ^~
+ssbm.c:293:112: error: request for member ‘compartments’ in something not a structure or union
+     pairing_apply(values[attr_found], ciphertext->E[ invAttr[cas->compartments[i][j]] ], decryption_key->a1[cas->compartments[i][j]], public_key->pairing);
+                                                                                                                ^~
+ssbm.c:293:145: error: request for member ‘pairing’ in something not a structure or union
+     pairing_apply(values[attr_found], ciphertext->E[ invAttr[cas->compartments[i][j]] ], decryption_key->a1[cas->compartments[i][j]], public_key->pairing);
+                                                                                                                                                 ^~
+ssbm.c:298:22: error: request for member ‘comp_threshold’ in something not a structure or union
+   if(attr_found < cas->comp_threshold[i])
+                      ^~
+ssbm.c:301:70: error: request for member ‘comp_threshold’ in something not a structure or union
+   element_polynomial_interpolation_in0(&share[i], values, points, cas->comp_threshold[i], public_key);
+                                                                      ^~
+ssbm.c:306:27: error: request for member ‘comp_number’ in something not a structure or union
+  element_init_GT(share[cas->comp_number], public_key->pairing);
+                           ^~
+ssbm.c:306:53: error: request for member ‘pairing’ in something not a structure or union
+  element_init_GT(share[cas->comp_number], public_key->pairing);
+                                                     ^~
+ssbm.c:309:22: error: request for member ‘t’ in something not a structure or union
+  element_t values[cas->t], points[cas->t];
+                      ^~
+ssbm.c:309:38: error: request for member ‘t’ in something not a structure or union
+  element_t values[cas->t], points[cas->t];
+                                      ^~
+ssbm.c:311:24: error: request for member ‘t’ in something not a structure or union
+  for(int i = 0; i < cas->t; i++) {
+                        ^~
+ssbm.c:312:40: error: request for member ‘pairing’ in something not a structure or union
+   element_init_GT(values[i], public_key->pairing);
+                                        ^~
+ssbm.c:313:40: error: request for member ‘pairing’ in something not a structure or union
+   element_init_Zr(points[i], public_key->pairing);
+                                        ^~
+ssbm.c:315:38: error: request for member ‘E’ in something not a structure or union
+   pairing_apply(values[i], ciphertext->E[i], decryption_key->a2[ciphertext->attributes[i]], public_key->pairing);
+                                      ^~
+ssbm.c:315:60: error: request for member ‘a2’ in something not a structure or union
+   pairing_apply(values[i], ciphertext->E[i], decryption_key->a2[ciphertext->attributes[i]], public_key->pairing);
+                                                            ^~
+ssbm.c:315:75: error: request for member ‘attributes’ in something not a structure or union
+   pairing_apply(values[i], ciphertext->E[i], decryption_key->a2[ciphertext->attributes[i]], public_key->pairing);
+                                                                           ^~
+ssbm.c:315:103: error: request for member ‘pairing’ in something not a structure or union
+   pairing_apply(values[i], ciphertext->E[i], decryption_key->a2[ciphertext->attributes[i]], public_key->pairing);
+                                                                                                       ^~
+ssbm.c:318:49: error: request for member ‘comp_number’ in something not a structure or union
+  element_polynomial_interpolation_in0(&share[cas->comp_number], values, points, cas->t, public_key);
+                                                 ^~
+ssbm.c:318:84: error: request for member ‘t’ in something not a structure or union
+  element_polynomial_interpolation_in0(&share[cas->comp_number], values, points, cas->t, public_key);
+                                                                                    ^~
+ssbm.c:321:32: error: request for member ‘pairing’ in something not a structure or union
+  element_init_GT(Ys, public_key->pairing);
+                                ^~
+ssbm.c:323:25: error: request for member ‘comp_number’ in something not a structure or union
+  for(int i = 0; i <= cas->comp_number; i++)
+                         ^~
+ssbm.c:326:36: error: request for member ‘pairing’ in something not a structure or union
+  element_init_GT(msg_gt, public_key->pairing);
+                                    ^~
+ssbm.c:327:32: error: request for member ‘M’ in something not a structure or union
+  element_mul(msg_gt, ciphertext->M, Ys);
+                                ^~
+ssbm.c:331:40: error: request for member ‘extra’ in something not a structure or union
+  mpz_add(*message, *message, ciphertext->extra);
+                                        ^~
+ssbm.c: In function ‘main’:
+ssbm.c:379:8: warning: passing argument 1 of ‘setup’ from incompatible pointer type [-Wincompatible-pointer-types]
+  setup(& pp, & msk, 4, 0);
+        ^
+ssbm.c:52:6: note: expected ‘struct Public_param_SSBM_ABE *’ but argument is of type ‘struct Public_param_SSBM_ABE (*)[1]’
+ void setup(public_param_SSBM_ABE public_key, secret_param_SSBM_ABE master_key, int n,  int lambda) {
+      ^~~~~
+ssbm.c:379:14: warning: passing argument 2 of ‘setup’ from incompatible pointer type [-Wincompatible-pointer-types]
+  setup(& pp, & msk, 4, 0);
+              ^
+ssbm.c:52:6: note: expected ‘struct Secret_param_SSBM_ABE *’ but argument is of type ‘struct Secret_param_SSBM_ABE (*)[1]’
+ void setup(public_param_SSBM_ABE public_key, secret_param_SSBM_ABE master_key, int n,  int lambda) {
+      ^~~~~
+ssbm.c:410:17: warning: passing argument 1 of ‘key_generation’ from incompatible pointer type [-Wincompatible-pointer-types]
+  key_generation(dec, pp, msk, cas);
+                 ^~~
+ssbm.c:187:5: note: expected ‘struct Decryption_key_SSBM_ABE (*)[1]’ but argument is of type ‘struct Decryption_key_SSBM_ABE *’
+ int key_generation(decryption_key_SSBM_ABE * decryption_key, public_param_SSBM_ABE * public_key, secret_param_SSBM_ABE * secret_key, compartmented_access_str * cas) {
+     ^~~~~~~~~~~~~~
+ssbm.c:410:22: warning: passing argument 2 of ‘key_generation’ from incompatible pointer type [-Wincompatible-pointer-types]
+  key_generation(dec, pp, msk, cas);
+                      ^~
+ssbm.c:187:5: note: expected ‘struct Public_param_SSBM_ABE (*)[1]’ but argument is of type ‘struct Public_param_SSBM_ABE *’
+ int key_generation(decryption_key_SSBM_ABE * decryption_key, public_param_SSBM_ABE * public_key, secret_param_SSBM_ABE * secret_key, compartmented_access_str * cas) {
+     ^~~~~~~~~~~~~~
+ssbm.c:410:26: warning: passing argument 3 of ‘key_generation’ from incompatible pointer type [-Wincompatible-pointer-types]
+  key_generation(dec, pp, msk, cas);
+                          ^~~
+ssbm.c:187:5: note: expected ‘struct Secret_param_SSBM_ABE (*)[1]’ but argument is of type ‘struct Secret_param_SSBM_ABE *’
+ int key_generation(decryption_key_SSBM_ABE * decryption_key, public_param_SSBM_ABE * public_key, secret_param_SSBM_ABE * secret_key, compartmented_access_str * cas) {
+     ^~~~~~~~~~~~~~
+ssbm.c:410:31: warning: passing argument 4 of ‘key_generation’ from incompatible pointer type [-Wincompatible-pointer-types]
+  key_generation(dec, pp, msk, cas);
+                               ^~~
+ssbm.c:187:5: note: expected ‘struct Compartmented_access_str (*)[1]’ but argument is of type ‘struct Compartmented_access_str *’
+ int key_generation(decryption_key_SSBM_ABE * decryption_key, public_param_SSBM_ABE * public_key, secret_param_SSBM_ABE * secret_key, compartmented_access_str * cas) {
+     ^~~~~~~~~~~~~~
+ssbm.c:425:20: warning: passing argument 1 of ‘decrypt’ from incompatible pointer type [-Wincompatible-pointer-types]
+  int ret = decrypt(message, cas, dec, pp, ct);
+                    ^~~~~~~
+ssbm.c:263:5: note: expected ‘__mpz_struct (*)[1] {aka struct <anonymous> (*)[1]}’ but argument is of type ‘__mpz_struct * {aka struct <anonymous> *}’
+ int decrypt(mpz_t * message,const compartmented_access_str * cas, const decryption_key_SSBM_ABE * decryption_key, public_param_SSBM_ABE * public_key, ciphertext_SSBM_ABE * ciphertext) {
+     ^~~~~~~
+ssbm.c:425:29: warning: passing argument 2 of ‘decrypt’ from incompatible pointer type [-Wincompatible-pointer-types]
+  int ret = decrypt(message, cas, dec, pp, ct);
+                             ^~~
+ssbm.c:263:5: note: expected ‘const struct Compartmented_access_str (*)[1]’ but argument is of type ‘struct Compartmented_access_str *’
+ int decrypt(mpz_t * message,const compartmented_access_str * cas, const decryption_key_SSBM_ABE * decryption_key, public_param_SSBM_ABE * public_key, ciphertext_SSBM_ABE * ciphertext) {
+     ^~~~~~~
+ssbm.c:425:34: warning: passing argument 3 of ‘decrypt’ from incompatible pointer type [-Wincompatible-pointer-types]
+  int ret = decrypt(message, cas, dec, pp, ct);
+                                  ^~~
+ssbm.c:263:5: note: expected ‘const struct Decryption_key_SSBM_ABE (*)[1]’ but argument is of type ‘struct Decryption_key_SSBM_ABE *’
+ int decrypt(mpz_t * message,const compartmented_access_str * cas, const decryption_key_SSBM_ABE * decryption_key, public_param_SSBM_ABE * public_key, ciphertext_SSBM_ABE * ciphertext) {
+     ^~~~~~~
+ssbm.c:425:39: warning: passing argument 4 of ‘decrypt’ from incompatible pointer type [-Wincompatible-pointer-types]
+  int ret = decrypt(message, cas, dec, pp, ct);
+                                       ^~
+ssbm.c:263:5: note: expected ‘struct Public_param_SSBM_ABE (*)[1]’ but argument is of type ‘struct Public_param_SSBM_ABE *’
+ int decrypt(mpz_t * message,const compartmented_access_str * cas, const decryption_key_SSBM_ABE * decryption_key, public_param_SSBM_ABE * public_key, ciphertext_SSBM_ABE * ciphertext) {
+     ^~~~~~~
+ssbm.c:425:43: warning: passing argument 5 of ‘decrypt’ from incompatible pointer type [-Wincompatible-pointer-types]
+  int ret = decrypt(message, cas, dec, pp, ct);
+                                           ^~
+ssbm.c:263:5: note: expected ‘struct Ciphertext_SSBM_ABE (*)[1]’ but argument is of type ‘struct Ciphertext_SSBM_ABE *’
+ int decrypt(mpz_t * message,const compartmented_access_str * cas, const decryption_key_SSBM_ABE * decryption_key, public_param_SSBM_ABE * public_key, ciphertext_SSBM_ABE * ciphertext) {
+     ^~~~~~~

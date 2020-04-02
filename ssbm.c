@@ -1,53 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <pbc/pbc.h>
-#include <pbc/pbc_test.h>
-
-
-typedef struct Public_param_SSBM_ABE {
-	pairing_t pairing;
-	element_t g, Y;
-	element_t *T;
-	int n;
-} public_param_SSBM_ABE[1];
-
-typedef struct Secret_param_SSBM_ABE {
-	element_t y;
-	element_t *t;
-	int n;
-} secret_param_SSBM_ABE[1];
-
-/**
- * @brief [brief description]
- * @details [long description]
- * 
- * E has attr_count elements, the keys corresponding to 
- * the [attributes] vector 
- */
-typedef struct Ciphertext_SSBM_ABE {
-	element_t M, S;
-	element_t * E;
-	mpz_t extra;
-	int * attributes, attr_count;
-} ciphertext_SSBM_ABE[1];
-
-struct key {
-	element_t value;
-	int undefined;
-};
-
-typedef struct Compartmented_access_str {
-	int n, t, comp_number;
-	int * comp_size, * comp_threshold;
-	int ** compartments;
-} compartmented_access_str[1];
-
-typedef struct Decryption_key_SSBM_ABE {
-	int n;
-	element_t * a1, * a2;
-} decryption_key_SSBM_ABE[1];
-
+#include "ssbm.h"
 
 void setup(public_param_SSBM_ABE public_key, secret_param_SSBM_ABE master_key, int n,  int lambda) {
 
@@ -79,7 +30,6 @@ void setup(public_param_SSBM_ABE public_key, secret_param_SSBM_ABE master_key, i
 		element_init_G1(public_key->T[i], public_key->pairing);	
 		element_pow_zn(public_key->T[i], public_key->g, master_key->t[i]);
 	}
-
 }
 
 void encrypt(ciphertext_SSBM_ABE ciphertext, public_param_SSBM_ABE public_key, mpz_t message, int * attributes, int attr_count) {
@@ -120,7 +70,6 @@ void encrypt(ciphertext_SSBM_ABE ciphertext, public_param_SSBM_ABE public_key, m
 		element_init_G1(ciphertext->E[i], public_key->pairing);
 		element_pow_zn(ciphertext->E[i], public_key->T[which], s);
 	}
-
 }
 
 // all elements should be initialised prior to the function call->
@@ -326,70 +275,3 @@ int decrypt(mpz_t message, compartmented_access_str cas, decryption_key_SSBM_ABE
 	mpz_add(message, message, ciphertext->extra);
 	return 0;
 }
-
-
-int main(int argc, char const *argv[])
-{
-	
-	public_param_SSBM_ABE pp;
-	secret_param_SSBM_ABE msk;
-	ciphertext_SSBM_ABE ct;
-	setup(pp, msk, 4, 0);
-
-	mpz_t msg;
-	mpz_init_set_si(msg, 1234567890);
-
-
-
-	int arr [] = {0, 1, 2};
-
-	encrypt(ct, pp, msg, arr, 3);
-	compartmented_access_str cas;
-
-	// initializing the compartmented access structure
-	int compartments[2][2] = {
-		{0, 3},
-		{1, 2}
-	};
-	int sz[2] = {2, 2};
-	int thresh[2] = {1, 1}; 
-
-	cas->n = 4;
-	cas->t = 3;
-	cas->comp_number = 2;
-	cas->compartments 		= (int **) calloc(2, sizeof(int*));
-	cas->compartments[0] 		= compartments[0];
-	cas->compartments[1] 		= compartments[1];
-	cas->comp_size 				= sz;
-	cas->comp_threshold 	= thresh;
-	// end of CAS initializing
-
-	decryption_key_SSBM_ABE dec;
-	key_generation(dec, pp, msk, cas);
-
-	printf("The decryption key was generated!\n");
-
-	// element_printf("%B %B %B\n", g, A, B);
-
-	// element_printf("dec1[0] -- %B\n", dec->a1[0]);
-	// element_printf("dec1[1] -- %B\n", dec->a1[1]);
-	// element_printf("%B\n", dec->a2[0]);
-	// element_printf("%B\n", dec->a2[1]);
-
-	printf("========\n\n");
-
-	mpz_t message;
-
-	int ret = decrypt(message, cas, dec, pp, ct);
-	
-	// printf("%d\n", ret);
-	// element_printf("%B", message);
-	if(ret == 0)
-		element_printf("The descrypted message is: %Zd\n", message);
-	else 
-		element_printf("The message could not be decrypted\n");
-
-	return 0;
-}
-
-//TODO clean up after use!!!! 
