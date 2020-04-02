@@ -14,7 +14,7 @@ The encryption algorithm encrypts an element from `mpz_t`.
 It returns a tuple (for convenience a `struct Ciphertext_SSBM_ABE` was created), that contains the elements...
 
 Examples:
-```
+```C
 public_param_SSBM_ABE pp;
 secret_param_SSBM_ABE msk;
 
@@ -39,7 +39,7 @@ The compartmented access structure should be given as an `int **`. Each `int*` r
 
 Example:
 
-```
+```C
 compartmented_access_str cas;
 
 // initializing the compartmented access structure
@@ -70,7 +70,7 @@ key_generation(dec, pp, msk, cas);
 The encryption algorithm encrypts an element from `mpz_t`.
 
 Example: 
-```
+```C
 mpz_t message;
 
 int ret = decrypt(message, cas, dec, pp, ct);
