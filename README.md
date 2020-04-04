@@ -5,7 +5,30 @@ We provide implementation for an Attribute Based Encryption with Compartmented A
 The implementation is written fully in C
 
 
+The SSBM scheme is divided into 4 algorithm: `setup`, `encrypt`, `gey_generation` and `decrpy`.
+We will show an example of how to use these algorithm in order to encrypt some message under the SSBM scheme.
 
+#SSBM Datatypes
+
+In order to make easier the workflow of SSBM algorithm, we have created 5 datatypes for our system:
+* `compartmented_access_str` - This structure defined the compartmented access structure. For more details on how to generate such a structure, please see the keygeneration algorithm
+* `public_param_SSBM_ABE` - This datatype can keep a public key. It matches a `secret_param_SSBM_ABE`, both which are obtained after a setup algorithm is called.
+* `secret_param_SSBM_ABE` - Stores the secret key.
+* `decryption_key_SSBM_ABE` - This structure holds decryption keys.
+* `ciphertext_SSBM_ABE` - The result of the encryption algorithm
+
+#Setup
+The setup algorithm sets the public and the secret parameters that are required later in the encryption, key generation and decryption phases.
+
+```C
+public_param_SSBM_ABE pp;
+secret_param_SSBM_ABE msk;
+
+
+// declare the total number of attributes
+int total_attr = 4;
+setup(pp, msk, total_attr, rand()); // the last number is a security parameter
+```
  
 
 # Encryption
@@ -15,10 +38,6 @@ It returns a tuple (for convenience a `struct Ciphertext_SSBM_ABE` was created),
 
 Examples:
 ```C
-public_param_SSBM_ABE pp;
-secret_param_SSBM_ABE msk;
-
-setup(pp, msk, 4, 0);
 
 mpz_t msg;
 mpz_init_set_si(msg, 1234567891);
