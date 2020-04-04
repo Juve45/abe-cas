@@ -8,7 +8,7 @@ The implementation is written fully in C
 The SSBM scheme is divided into 4 algorithm: `setup`, `encrypt`, `gey_generation` and `decrpy`.
 We will show an example of how to use these algorithm in order to encrypt some message under the SSBM scheme.
 
-#SSBM Datatypes
+# SSBM Datatypes
 
 In order to make easier the workflow of SSBM algorithm, we have created 5 datatypes for our system:
 * `compartmented_access_str` - This structure defined the compartmented access structure. For more details on how to generate such a structure, please see the keygeneration algorithm
@@ -17,7 +17,7 @@ In order to make easier the workflow of SSBM algorithm, we have created 5 dataty
 * `decryption_key_SSBM_ABE` - This structure holds decryption keys.
 * `ciphertext_SSBM_ABE` - The result of the encryption algorithm
 
-#Setup
+# Setup
 The setup algorithm sets the public and the secret parameters that are required later in the encryption, key generation and decryption phases.
 
 ```C
