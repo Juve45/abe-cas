@@ -4,8 +4,13 @@ Attribute Based Encryption for Compartmented  Access Structure
 We provide implementation for an Attribute Based Encryption with Compartmented Access Structure
 The implementation is written fully in C
 
+# Installation
 
-The SSBM scheme is divided into 4 algorithm: `setup`, `encrypt`, `gey_generation` and `decrpy`.
+The SSBM requires only PBC and GMP as requirements.
+
+
+
+The SSBM scheme is divided into 4 algorithm: `setup`, `encrypt`, `gey_generation` and `decrypt`.
 We will show an example of how to use these algorithm in order to encrypt some message under the SSBM scheme.
 
 # SSBM Datatypes
