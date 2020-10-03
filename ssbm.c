@@ -139,7 +139,8 @@ int key_generation(decryption_key_SSBM_ABE decryption_key, public_param_SSBM_ABE
 
 	decryption_key->n = public_key->n;
 
-	element_t * share = (element_t *) calloc(cas->comp_number + 1, sizeof(element_t ));
+	int share_count = cas->comp_number + 1;
+	element_t * share = (element_t *) calloc(share_count, sizeof(element_t ));
 	decryption_key->a1 = (element_t *) calloc(public_key->n, sizeof(element_t ));
 	decryption_key->a2 = (element_t *) calloc(public_key->n, sizeof(element_t ));
 
@@ -207,6 +208,12 @@ int key_generation(decryption_key_SSBM_ABE decryption_key, public_param_SSBM_ABE
 		element_div(tmp, tmp, secret_key->t[j]);
 		element_pow_zn(decryption_key->a2[j], public_key->g, tmp);
 	}
+
+	for (int i = 0; i < share_count; i++) {
+		element_clear(share[i]);
+	};
+	free(share);
+	return 1;
 }
 
 int decrypt(mpz_t message, compartmented_access_str cas, decryption_key_SSBM_ABE decryption_key, public_param_SSBM_ABE public_key, ciphertext_SSBM_ABE ciphertext) {
