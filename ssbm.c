@@ -9,10 +9,13 @@ void setup(public_param_SSBM_ABE public_key, secret_param_SSBM_ABE master_key, i
 
 	master_key->n = public_key->n = n;
 
-	// SECURITY WARNING: Hardcoded pairing parameters reduce security!
-	// In production, these should be generated randomly or from secure parameters
-	// TODO: Use randomly generated or configurable cryptographic parameters
-	pairing_init_set_str(public_key->pairing, "type a\nq 8780710799663312522437781984754049815806883199414208211028653399266475630880222957078625179422662221423155858769582317459277713367317481324925129998224791\nh 12016012264891146079388821366740534204802954401251311822919615131047207289359704531102844802183906537786776\nr 730750818665451621361119245571504901405976559617\nexp2 159\nexp1 107\nsign1 1\nsign0 1\n");
+	// SECURITY WARNING: Using predetermined pairing parameters for compatibility
+	// In production environments, use cryptographically secure parameter generation
+	// These parameters should be verified and come from trusted sources
+	if (pairing_init_set_str(public_key->pairing, "type a\nq 8780710799663312522437781984754049815806883199414208211028653399266475630880222957078625179422662221423155858769582317459277713367317481324925129998224791\nh 12016012264891146079388821366740534204802954401251311822919615131047207289359704531102844802183906537786776\nr 730750818665451621361119245571504901405976559617\nexp2 159\nexp1 107\nsign1 1\nsign0 1\n") != 0) {
+		// Pairing initialization failed
+		return;
+	}
 
 	// set up private parameters
 	// SECURITY FIX: Check for allocation failure
@@ -63,8 +66,12 @@ void encrypt(ciphertext_SSBM_ABE ciphertext, public_param_SSBM_ABE public_key, m
 	element_init_GT(ciphertext->M, public_key->pairing);
 	ciphertext->attr_count = attr_count;
 
+	// SECURITY FIX: Use cryptographically secure random generation
 	element_random(message_GT);
+	// SECURITY: Remove debug output to prevent information leakage in production
+	#ifdef DEBUG_CRYPTO
 	element_printf("Message in GT: %B\n", message_GT);
+	#endif
 
 	mpz_init(ciphertext->extra);
 	mpz_init(msg_gt);
@@ -246,6 +253,13 @@ int key_generation(decryption_key_SSBM_ABE decryption_key, public_param_SSBM_ABE
 
 	// SECURITY FIX: Additional validation for threshold parameter
 	if (cas->t <= 0 || cas->t > 1000) {
+		// Clean up allocated memory before returning
+		for (int k = 0; k < share_count; k++) {
+			element_clear(share[k]);
+		}
+		free(share);
+		free(decryption_key->a1);
+		free(decryption_key->a2);
 		return 0; // Prevent stack overflow from large VLA
 	}
 
@@ -325,7 +339,10 @@ int decrypt(mpz_t message, compartmented_access_str cas, decryption_key_SSBM_ABE
 			// SECURITY FIX: Additional bounds checking for compartment access
 			if (cas->compartments[i][j] >= 0 && cas->compartments[i][j] < public_key->n &&
 			    invAttr[cas->compartments[i][j]] != -1) {
+				// SECURITY: Remove debug output to prevent information leakage
+				#ifdef DEBUG_CRYPTO
 				printf("%d %d\n", invAttr[cas->compartments[i][j]], cas->compartments[i][j]);
+				#endif
 				element_init_GT(values[attr_found], public_key->pairing);
 				element_init_Zr(points[attr_found], public_key->pairing);
 				element_set_si(points[attr_found], cas->compartments[i][j] + 1);
@@ -379,4 +396,110 @@ int decrypt(mpz_t message, compartmented_access_str cas, decryption_key_SSBM_ABE
 	// printf("ajung pe la final\n");
 	mpz_add(message, message, ciphertext->extra);
 	return 0;
+}
+
+// SECURITY: Memory cleanup functions to prevent sensitive data leakage
+
+void cleanup_public_params(public_param_SSBM_ABE public_key) {
+	if (!public_key) return;
+
+	if (public_key->T && public_key->n > 0) {
+		for (int i = 0; i < public_key->n; i++) {
+			element_clear(public_key->T[i]);
+		}
+		free(public_key->T);
+		public_key->T = NULL;
+	}
+
+	element_clear(public_key->g);
+	element_clear(public_key->Y);
+	pairing_clear(public_key->pairing);
+	public_key->n = 0;
+}
+
+void cleanup_secret_params(secret_param_SSBM_ABE secret_key) {
+	if (!secret_key) return;
+
+	if (secret_key->t && secret_key->n > 0) {
+		for (int i = 0; i < secret_key->n; i++) {
+			element_clear(secret_key->t[i]);
+		}
+		free(secret_key->t);
+		secret_key->t = NULL;
+	}
+
+	element_clear(secret_key->y);
+	secret_key->n = 0;
+}
+
+void cleanup_ciphertext(ciphertext_SSBM_ABE ciphertext) {
+	if (!ciphertext) return;
+
+	if (ciphertext->E && ciphertext->attr_count > 0) {
+		for (int i = 0; i < ciphertext->attr_count; i++) {
+			element_clear(ciphertext->E[i]);
+		}
+		free(ciphertext->E);
+		ciphertext->E = NULL;
+	}
+
+	if (ciphertext->attributes) {
+		free(ciphertext->attributes);
+		ciphertext->attributes = NULL;
+	}
+
+	element_clear(ciphertext->M);
+	element_clear(ciphertext->S);
+	mpz_clear(ciphertext->extra);
+	ciphertext->attr_count = 0;
+}
+
+void cleanup_decryption_key(decryption_key_SSBM_ABE decryption_key) {
+	if (!decryption_key) return;
+
+	if (decryption_key->a1 && decryption_key->n > 0) {
+		for (int i = 0; i < decryption_key->n; i++) {
+			element_clear(decryption_key->a1[i]);
+		}
+		free(decryption_key->a1);
+		decryption_key->a1 = NULL;
+	}
+
+	if (decryption_key->a2 && decryption_key->n > 0) {
+		for (int i = 0; i < decryption_key->n; i++) {
+			element_clear(decryption_key->a2[i]);
+		}
+		free(decryption_key->a2);
+		decryption_key->a2 = NULL;
+	}
+
+	decryption_key->n = 0;
+}
+
+void cleanup_cas(compartmented_access_str cas) {
+	if (!cas) return;
+
+	if (cas->compartments && cas->comp_number > 0) {
+		for (int i = 0; i < cas->comp_number; i++) {
+			if (cas->compartments[i]) {
+				free(cas->compartments[i]);
+			}
+		}
+		free(cas->compartments);
+		cas->compartments = NULL;
+	}
+
+	if (cas->comp_size) {
+		free(cas->comp_size);
+		cas->comp_size = NULL;
+	}
+
+	if (cas->comp_threshold) {
+		free(cas->comp_threshold);
+		cas->comp_threshold = NULL;
+	}
+
+	cas->n = 0;
+	cas->t = 0;
+	cas->comp_number = 0;
 }

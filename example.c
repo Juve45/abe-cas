@@ -69,18 +69,16 @@ int main(int argc, char const *argv[]) {
 		element_printf("The message could not be decrypted\n");
 	}
 
-	// SECURITY FIX: Proper memory cleanup to prevent memory leaks
-	// Clean up allocated memory
-	if (cas->compartments) {
-		free(cas->compartments);
-	}
+	// SECURITY FIX: Proper memory cleanup to prevent memory leaks and sensitive data exposure
+	cleanup_public_params(pp);
+	cleanup_secret_params(msk);
+	cleanup_ciphertext(ct);
+	cleanup_decryption_key(dec);
+	cleanup_cas(cas);
 
 	// Clean up mpz variables
 	mpz_clear(msg);
 	mpz_clear(message);
-
-	// Note: In a full implementation, all element_t structures should also be cleared
-	// This requires calling element_clear() for each initialized element
 
 	return 0;
 } 

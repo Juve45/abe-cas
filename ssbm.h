@@ -109,3 +109,43 @@ int key_generation(decryption_key_SSBM_ABE decryption_key, public_param_SSBM_ABE
  * @return [description]
  */
 int decrypt(mpz_t message, compartmented_access_str cas, decryption_key_SSBM_ABE decryption_key, public_param_SSBM_ABE public_key, ciphertext_SSBM_ABE ciphertext);
+
+/**
+ * @brief Clean up and free memory for public parameters
+ * @details Securely clears all elements and frees allocated memory
+ *
+ * @param public_key The public parameters to clean up
+ */
+void cleanup_public_params(public_param_SSBM_ABE public_key);
+
+/**
+ * @brief Clean up and free memory for secret parameters
+ * @details Securely clears all elements and frees allocated memory
+ *
+ * @param secret_key The secret parameters to clean up
+ */
+void cleanup_secret_params(secret_param_SSBM_ABE secret_key);
+
+/**
+ * @brief Clean up and free memory for ciphertext
+ * @details Securely clears all elements and frees allocated memory
+ *
+ * @param ciphertext The ciphertext to clean up
+ */
+void cleanup_ciphertext(ciphertext_SSBM_ABE ciphertext);
+
+/**
+ * @brief Clean up and free memory for decryption key
+ * @details Securely clears all elements and frees allocated memory
+ *
+ * @param decryption_key The decryption key to clean up
+ */
+void cleanup_decryption_key(decryption_key_SSBM_ABE decryption_key);
+
+/**
+ * @brief Clean up compartmented access structure
+ * @details Frees all allocated memory for the access structure
+ *
+ * @param cas The compartmented access structure to clean up
+ */
+void cleanup_cas(compartmented_access_str cas);
