@@ -1,8 +1,14 @@
-# abe-cas
-Attribute Based Encryption for Compartmented  Access Structure
+# ABE-CAS: Attribute Based Encryption for Compartmented Access Structure
 
-We provide implementation for an Attribute Based Encryption with Compartmented Access Structure
-The implementation is written fully in C
+## 🔒 Security-Enhanced Implementation
+
+**⚠️ IMPORTANT**: This codebase has been analyzed and enhanced with security fixes. See `SECURITY_GUIDE.md` for details about vulnerabilities found and educational information for students.
+
+## Overview
+
+This project provides an implementation of Attribute Based Encryption (ABE) with Compartmented Access Structure (CAS). The implementation is written in C and uses the PBC (Pairing-Based Cryptography) library.
+
+**Educational Purpose**: This implementation is designed for learning cryptographic concepts and should not be used in production without further security hardening.
 
 # Installation
 
